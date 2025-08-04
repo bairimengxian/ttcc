@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>你的宝藏游戏库 | 永久免费汉化Galgame</title>
+    <style>
+        /* 引入谷歌字体，让页面更好看 */
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;700;900&display=swap');
+
+        /* 全局样式 */
+        body {
+            background-color: #121212;
+            color: #e0e0e0;
+            font-family: 'Noto Sans SC', sans-serif;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+        }
+
+        /* 动画 */
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes zoomIn { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+
+        /* 容器 */
+        .container { max-width: 1000px; margin: 0 auto; padding: 20px; text-align: center; }
+
+        /* 头部 */
+        .header {
+            padding: 80px 20px;
+            background: linear-gradient(rgba(18, 18, 18, 0.8), rgba(18, 18, 18, 1)), url(https://placehold.co/1200x600/1a1a1a/7f00ff?text=Game+Background) no-repeat center center;
+            background-size: cover;
+            border-bottom: 4px solid #7F00FF;
+            animation: fadeIn 1s ease-out;
+        }
+        .header h1 { font-size: 3.5em; font-weight: 900; color: #ffffff; text-shadow: 0 0 10px #7F00FF, 0 0 20px #7F00FF, 0 0 30px #c386ff; margin: 0; }
+        .header .subtitle { font-size: 1.5em; color: #00e5ff; margin-top: 10px; text-shadow: 0 0 5px #00e5ff; }
+
+        /* 【已修改】宣传标语块 */
+        .promo-block { 
+            display: inline-block; 
+            margin-top: 40px; 
+            padding: 15px 40px; 
+            background: linear-gradient(45deg, #7F00FF, #d400ff); 
+            color: #ffffff; 
+            font-size: 1.2em; 
+            font-weight: bold; 
+            text-decoration: none; /* 新增：去除链接下划线 */
+            border-radius: 50px; 
+            box-shadow: 0 0 20px #7F00FF; 
+            transition: all 0.3s ease; 
+            cursor: pointer; /* 保持手型光标 */
+        }
+        .promo-block:hover { transform: scale(1.1); box-shadow: 0 0 30px #d400ff; }
+
+        /* 优势介绍区域布局 - 强制2x2对称网格 */
+        .features {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr); /* 强制创建两列，实现对称 */
+            gap: 25px; /* 网格间距 */
+            margin-top: 60px;
+        }
+        .feature-item {
+            padding: 25px;
+            background-color: #1e1e1e;
+            border: 2px solid #333;
+            border-radius: 15px;
+            transition: all 0.3s ease;
+            animation: fadeIn 1.5s ease-out;
+        }
+        .feature-item:hover { transform: translateY(-10px); border-color: #00e5ff; }
+        .feature-item h3 { font-size: 1.8em; color: #00e5ff; margin-top: 0; }
+        .feature-item p { font-size: 1.1em; line-height: 1.6; }
+
+        /* 分隔标题 */
+        .section-title { margin: 80px 0 40px 0; font-size: 2.5em; font-weight: 700; color: #fff; position: relative; display: inline-block; animation: fadeIn 2s ease-out; }
+        .section-title::after { content: ''; position: absolute; width: 80%; height: 4px; background: linear-gradient(90deg, #7F00FF, #00e5ff); bottom: -10px; left: 10%; border-radius: 2px; }
+        
+        /* 游戏展示 */
+        .game-gallery { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 25px; animation: fadeIn 2.5s ease-out; }
+        .game-card { background-color: #1e1e1e; border-radius: 10px; overflow: hidden; box-shadow: 0 5px 15px rgba(0,0,0,0.3); transition: transform 0.3s ease, box-shadow 0.3s ease; cursor: pointer; }
+        .game-card:hover { transform: scale(1.05); box-shadow: 0 0 25px rgba(127, 0, 255, 0.6); }
+        .game-card img { width: 100%; height: 300px; object-fit: cover; display: block; }
+        .game-card .game-title { padding: 15px; font-size: 1.1em; font-weight: bold; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+        /* 教程 */
+        .tutorial-steps { margin-top: 40px; display: flex; flex-direction: column; gap: 40px; animation: fadeIn 3s ease-out; }
+        .tutorial-step { display: flex; flex-wrap: wrap; align-items: center; background-color: #1e1e1e; border: 2px solid #333; border-radius: 15px; padding: 20px; text-align: left; gap: 20px; }
+        .tutorial-step .image-container { flex: 1; min-width: 250px; }
+        .tutorial-step img { width: 100%; border-radius: 10px; border: 2px solid #555; }
+        .clickable-image { cursor: zoom-in; transition: opacity 0.2s ease; }
+        .clickable-image:hover { opacity: 0.8; }
+        .tutorial-step .text-container { flex: 2; min-width: 300px; }
+        .tutorial-step h3 { font-size: 1.8em; color: #7F00FF; margin: 0 0 10px 0; }
+        .tutorial-step p { font-size: 1.1em; line-height: 1.7; margin: 0; }
+
+        /* 图片放大浮层 */
+        .lightbox { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.9); justify-content: center; align-items: center; }
+        .lightbox-content { max-width: 90%; max-height: 90%; animation: zoomIn 0.3s ease-out; }
+        .lightbox-close { position: absolute; top: 15px; right: 35px; color: #fff; font-size: 40px; font-weight: bold; transition: 0.3s; cursor: pointer; }
+        .lightbox-close:hover { color: #bbb; }
+
+        /* 结尾 */
+        .footer { margin-top: 80px; padding: 40px 20px; background-color: #181818; border-top: 2px solid #333; }
+        .footer h2 { font-size: 2.2em; color: #fff; text-shadow: 0 0 10px #7F00FF; }
+
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .header h1 { font-size: 2.5em; }
+            .header .subtitle { font-size: 1.2em; }
+            .tutorial-step { text-align: center; }
+            
+            /* 【已修改】在小屏幕上，让优势块变为单列 */
+            .features {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="header">
+        <h1>！你还在苦苦寻找着游戏资源吗！欢迎来到我们的宝藏库</h1>
+        <p class="subtitle">同人热门游戏 | 全部汉化 | 永久免费 | galg</p>
+        <!-- 【已修改】将 div 改为 a 标签，并添加 href 属性 -->
+        <a href="https://bairimengxian.github.io/Bairimengxiangjia.github.io/" class="promo-block">这，就是你的宝藏库</a>
+    </header>
+
+    <main class="container">
+        <!-- 四大核心优势 -->
+        <section class="features">
+            <div class="feature-item">
+                <h3>海量付费资源</h3>
+                <p>上千款来自D站，C站，F站等平台的正版佳作，我们为你搬运和整理，<strong style="color: #ff4757;">资源库持续更新中！！！</strong></p>
+            </div>
+            <div class="feature-item">
+                <h3>专业人工汉化</h3>
+                <p>告别生硬的机翻！我们提供高质量的人工精翻版本，让你体验原汁原味的故事与感动。</p>
+            </div>
+            <div class="feature-item">
+                <h3>承诺永久免费</h3>
+                <p>我们因热爱而生，所有游戏资源、汉化补丁、网站功能，现在和未来，都对你完全免费！</p>
+            </div>
+            <div class="feature-item">
+                <h3>PC/安卓双端支持</h3>
+                <p>无需模拟器！我们为大部分游戏都提供了原生PC版和安卓直装版，让你在电脑和手机上都能无缝畅玩。</p>
+            </div>
+        </section>
+
+           <footer class="footer">
+        <h2>你的下一个“神作”，何必是付费的？</h2>
+        <!-- 【已修改】将 div 改为 a 标签，并添加 href 属性 -->
+        <a href="https://bairimengxian.github.io/Bairimengxiangjia.github.io/" class="promo-block" style="background: linear-gradient(45deg, #00e5ff, #00b8d4); box-shadow: 0 0 20px #00e5ff;">立即开始探索！</a>
+        <p style="margin-top: 40px; color: #555; font-size: 0.9em;">我们不生产游戏，我们只是付费游戏的汉化搬运工。</p>
+    </footer>
+
+    <div id="lightbox" class="lightbox">
+        <span id="lightbox-close" class="lightbox-close">×</span>
+        <img id="lightbox-content" class="lightbox-content">
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const lightbox = document.getElementById('lightbox');
+            const lightboxContent = document.getElementById('lightbox-content');
+            const lightboxClose = document.getElementById('lightbox-close');
+            const clickableImages = document.querySelectorAll('.clickable-image');
+            clickableImages.forEach(image => {
+                image.addEventListener('click', function() {
+                    lightbox.style.display = 'flex';
+                    lightboxContent.src = this.src;
+                    document.body.style.overflow = 'hidden';
+                });
+            });
+            function closeLightbox() {
+                lightbox.style.display = 'none';
+                lightboxContent.src = '';
+                document.body.style.overflow = 'auto';
+            }
+            lightboxClose.addEventListener('click', closeLightbox);
+            lightbox.addEventListener('click', function(e) {
+                if (e.target === lightbox) {
+                    closeLightbox();
+                }
+            });
+        });
+    </script>
+</body>
+</html>
